@@ -9,7 +9,7 @@ import csv
 
 # Récupère le dernier id du fichier
 def last_index():
-    with open('write/data/movies.csv',encoding='utf-8') as csvfile:
+    with open('data/movies.csv',encoding='utf-8') as csvfile:
         read = csv.reader(csvfile, delimiter=';')
         last_row = None
         for row in (read):
@@ -52,8 +52,8 @@ def insert_movie():
             movie = Movie(titre,annee_production,genre,age_limite)
             id = last_index()
             my_movie = [id,titre,annee_production,genre,age_limite]
-            with open("write/data/movies.csv", "a",newline='', encoding="utf-8") as csvfile:
-                writer = csv.writer(csvfile, delimiter=';')
+            with open("data/movies.csv", "a",newline='', encoding="utf-8") as csvfile:
+                writer = csv.writer(csvfile, delimiter=',')
                 writer.writerow(my_movie)
             print("Votre film à bien été enregistré !")
             return -1
@@ -61,13 +61,13 @@ def insert_movie():
 # Supprimer un film
 def delete_movie(value):
     # Lire toutes les lignes et les stocke dans une list, retire l'éléement qu'on souhaite supprimer
-    with open("write/data/movies.csv", "r", newline='', encoding="utf-8") as csvfile:
+    with open("data/movies.csv", "r", newline='', encoding="utf-8") as csvfile:
         reader = csv.reader(csvfile, delimiter=';')
         lignes = [row for row in reader]
         lignes.pop(value)
     
     # Réécrire le fichier sans la ligne qu'on veut supprimer
-    with open("write/data/movies.csv", "w", newline='', encoding="utf-8") as csvfile:
+    with open("data/movies.csv", "w", newline='', encoding="utf-8") as csvfile:
         writer = csv.writer(csvfile, delimiter=';')
         writer.writerows(lignes)
     
@@ -84,6 +84,6 @@ def modify_movie(movie_number:int):
          
 if __name__ == "__main__":
     insert_movie()
-    modify_movie(31)
-    delete_movie(31)
+    modify_movie(25)
+    delete_movie(26)
 
