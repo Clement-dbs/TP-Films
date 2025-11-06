@@ -7,17 +7,19 @@ from exceptions.InvalidYearException import InvalidYearExeption
 import data
 import csv
 
-# def last_index():
-#     with open('write/data/movies.csv',encoding='utf-8') as f:
-#         reader = csv.reader(f)
-#         last_row = None
-#         for row in reader:
-#             last_row = row 
-#             print(row)
+# Récupère le dernier id du fichier
+def last_index():
+    with open('write/data/movies.csv',encoding='utf-8') as csvfile:
+        read = csv.reader(csvfile, delimiter=';')
+        last_row = None
+        for row in (read):
+            last_row = row[0].split(',')[0]
+            
+    if last_row:
+        return int(last_row) +1
+            
 
-#     if last_row:
-#         return int(last_row[0])
-
+# Ajoute un nouveau film au fichier movies.csv    
 def insert_movie():
     while True:
         try:
@@ -48,12 +50,40 @@ def insert_movie():
 
         else :
             movie = Movie(titre,annee_production,genre,age_limite)
-            #id = Movie.nb_movie
-            my_movie = [titre,annee_production,genre,age_limite]
-            with open("write/data/movies.csv", "a", encoding="utf-8") as csvfile:
+            id = last_index()
+            my_movie = [id,titre,annee_production,genre,age_limite]
+            with open("write/data/movies.csv", "a",newline='', encoding="utf-8") as csvfile:
                 writer = csv.writer(csvfile, delimiter=';')
                 writer.writerow(my_movie)
             print("Votre film à bien été enregistré !")
             return -1
+
+# Supprimer un film
+def delete_movie(value):
+    # Lire toutes les lignes et les stocke dans une list, retire l'éléement qu'on souhaite supprimer
+    with open("write/data/movies.csv", "r", newline='', encoding="utf-8") as csvfile:
+        reader = csv.reader(csvfile, delimiter=';')
+        lignes = [row for row in reader]
+        lignes.pop(value)
     
-insert_movie()
+    # Réécrire le fichier sans la ligne qu'on veut supprimer
+    with open("write/data/movies.csv", "w", newline='', encoding="utf-8") as csvfile:
+        writer = csv.writer(csvfile, delimiter=';')
+        writer.writerows(lignes)
+    
+    print("Suppression du film effectué")
+
+
+# Modifier un film
+def modify_movie(movie_number:int):
+    delete_movie(movie_number) # On supprime le film qu'on souhaite modifier
+    insert_movie() # On l'ajoute à la fin du fichier
+    print("Modification du film effectué")
+
+
+         
+if __name__ == "__main__":
+    insert_movie()
+    modify_movie(31)
+    delete_movie(31)
+
