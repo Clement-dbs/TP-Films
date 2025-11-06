@@ -80,10 +80,31 @@ def modify_movie(movie_number:int):
     insert_movie() # On l'ajoute à la fin du fichier
     print("Modification du film effectué")
 
-
          
 if __name__ == "__main__":
-    insert_movie()
-    modify_movie(25)
-    delete_movie(26)
+
+    while True:
+        print("1. Ajouter un film")
+        print("2. Modifier un film")
+        print("3. Supprimer un film")
+        print("5. Quitter")
+
+        choice = input("Quelle opération voulez vous effectuer : ")
+            
+        match choice:
+            case "1":
+                insert_movie()
+                print("\n")
+            case "2":
+                inputUser = int(input("Quel film souhaiter vous modifier ? : "))
+                modify_movie(inputUser)
+                print("\n")
+            case "3":
+                inputUser = input("Quel film souhaiter vous suipprimer ? : ")
+                delete_movie(inputUser)
+                print("\n")
+            case "4":
+                exit()
+            case _:
+                print("Erreur, commande incorrect")
 
